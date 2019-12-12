@@ -20,10 +20,17 @@ yarn-error.log*
 *.sln
 *.sw?
 *.log
-
+*.iml 
 Thumbs.db
 db.json
 public/
 .deploy*/
 src/_drafts
 package-lock.json
+
+# Packages
+*.jar
+*.rar
+*.tar
+*.zip
+*/target/*
