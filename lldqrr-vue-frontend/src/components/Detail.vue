@@ -83,7 +83,7 @@
         // TODO: QR Code generieren
         // TODO: Download der Daten implementieren (wenn keine Zeit, Fehlermeldung ist noch nicht implementiert)
         // TODO: Wenn noch spass daran, Teil Money auf gleiche höhe bringen
-        // TODO: id in url mitgeben 
+        // TODO: id in url mitgeben
         name: "Detail",
         data: function () {
             return {
@@ -127,6 +127,8 @@
     .detailReceiverContainer {
         display: grid;
         grid-template-rows: repeat(5, auto);
+        border-right: 1px solid;
+        margin-right: 2em;
     }
 
     .qrCodeDetailContainer {

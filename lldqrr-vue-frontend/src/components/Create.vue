@@ -22,7 +22,7 @@
             <h2>Rechnungssteller</h2>
             <md-field>
                 <label>IBAN</label>
-                <md-input v-model="sender.iban"></md-input>
+                <md-input v-model="biller.iban"></md-input>
             </md-field>
         </div>
         <div class="qrCodeContainer">
@@ -35,8 +35,9 @@
                         md-confirm-text="Ja"
                         md-cancel-text="Nein"
                         @md-confirm="navigateToHome"
+
                 />
-                <md-button class="md-dense md-raised" style="position: absolute; bottom: 0" @click="confirmAbort = true">Abbrechen</md-button>
+                <md-button class="md-dense md-raised" style="position: absolute; bottom: 0" @click="checkIfUserInputIsNull()">Abbrechen</md-button>
                 <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0; margin-left: 10em">Speichern</md-button>
             </div>
         </div>
@@ -47,7 +48,6 @@
 <script>
     export default {
         // TODO: Validierung der Inputfelder
-        // TODO: abfrage kommt nur wenn Daten eingegeben worden sind
         // TODO: QR Code generieren
         // TODO: Funktionalität für Speichern implementieren
         name: "Create",
@@ -59,7 +59,7 @@
                     iban: "",
                     message: ""
                 },
-                sender: {
+                biller: {
                     iban: ""
                 },
                 confirmAbort: false
@@ -68,6 +68,21 @@
         methods: {
             navigateToHome: function () {
                 this.$router.push("/home");
+            },
+            checkIfUserInputIsNull: function () {
+                if (this.checkPropertys(this.receiver) && this.checkPropertys(this.biller)) {
+                    this.navigateToHome();
+                } else {
+                    this.confirmAbort = true;
+                }
+            },
+            checkPropertys: function (obj) {
+                for (let key in obj) {
+                    if (obj[key] !== null && obj[key] != "")
+                        return false;
+                }
+                return true;
+
             }
         }
     }
