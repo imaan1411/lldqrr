@@ -36,7 +36,7 @@
                         md-cancel-text="Nein"
                         @md-confirm="navigateToHome"
                 />
-                <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0" @click="confirmAbort = true">Abbrechen</md-button>
+                <md-button class="md-dense md-raised" style="position: absolute; bottom: 0" @click="confirmAbort = true">Abbrechen</md-button>
                 <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0; margin-left: 10em">Speichern</md-button>
             </div>
         </div>
@@ -95,8 +95,8 @@
     }
 
     .container {
+        max-width: 100em;
         display: grid;
         grid-template-columns: 33.3% 33.3% 33.3%;
     }
-
 </style>

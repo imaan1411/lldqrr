@@ -57,6 +57,7 @@
         </v-snackbar>
 
         <router-link to="/create" ><v-btn color="primary">Create</v-btn></router-link>
+        <router-link to="/detail" ><v-btn color="primary">Detail</v-btn></router-link>
 
     </div>
 </template>
