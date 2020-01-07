@@ -1,5 +1,5 @@
 <template>
-    <div id="login">
+    <div id="home">
         <v-data-table
                 :headers="headers"
                 :items="desserts"
@@ -55,6 +55,9 @@
             {{ snackText }}
             <v-btn text @click="snack = false">Close</v-btn>
         </v-snackbar>
+
+        <router-link to="/create" ><v-btn color="primary">Create</v-btn></router-link>
+
     </div>
 </template>
 

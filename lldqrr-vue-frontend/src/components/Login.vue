@@ -29,7 +29,8 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer/>
-                                <v-btn color="primary">Login</v-btn>
+                                <md-button class="md-dense md-raised md-primary">Registrieren</md-button>
+                                <router-link to="/home"><md-button class="md-dense md-raised md-primary">Login</md-button></router-link>
                             </v-card-actions>
                         </v-card>
                     </v-col>
