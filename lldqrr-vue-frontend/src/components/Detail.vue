@@ -83,6 +83,7 @@
         // TODO: QR Code generieren
         // TODO: Download der Daten implementieren (wenn keine Zeit, Fehlermeldung ist noch nicht implementiert)
         // TODO: Wenn noch spass daran, Teil Money auf gleiche höhe bringen
+        // TODO: id in url mitgeben 
         name: "Detail",
         data: function () {
             return {
