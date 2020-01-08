@@ -23,7 +23,6 @@ yarn-error.log*
 *.iml 
 Thumbs.db
 db.json
-public/
 .deploy*/
 src/_drafts
 package-lock.json

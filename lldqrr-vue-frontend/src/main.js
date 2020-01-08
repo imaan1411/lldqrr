@@ -6,6 +6,7 @@ import { routes } from './routes';
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+import 'material-components-web/dist/material-components-web.min.css'
 
 Vue.config.productionTip = false;
 
