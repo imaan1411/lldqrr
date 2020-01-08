@@ -1,8 +1,7 @@
 <template>
     <div class="container">
         <div class="detailReceiverContainer">
-
-            <router-link to="/home"><md-button class="md-dense md-raised md-primary" style="width: 1em; margin: 6px 0 16px 0">Zurück</md-button></router-link>
+            <router-link to="/home"><md-button class="md-dense md-raised md-primary toHomeBtn">Zurück</md-button></router-link>
             <h2 style="margin-bottom: 8px">Empfangsschein</h2>
             <div>
                 <b>Konto / Zahlbar an</b>
@@ -69,17 +68,15 @@
                 <p>{{biller.postCode}} {{biller.city}}</p>
             </div>
             <div style="text-align: right">
-
                 <md-button class="md-dense md-raised" style="width: 1em;">Döwnlöäd</md-button>
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        // TODO: Daten aus DB anzeigen
+        // TODO: Daten aus store anzeigen
         // TODO: QR Code generieren
         // TODO: Download der Daten implementieren (wenn keine Zeit, Fehlermeldung ist noch nicht implementiert)
         // TODO: Wenn noch spass daran, Teil Money auf gleiche höhe bringen
@@ -107,7 +104,6 @@
                     amount: "6666666666669"
                 },
                 message: "Rechnung Nr 3, Alkohol "
-
             }
         }
     }
@@ -133,7 +129,7 @@
 
     .qrCodeDetailContainer {
         display: grid;
-        grid-template-rows: 52px repeat(3, auto);
+        grid-template-rows: 66px repeat(3, auto);
     }
 
     .secondPartContainer {
@@ -141,4 +137,8 @@
         grid-template-rows: 52px repeat(4, auto);
     }
 
+    .toHomeBtn {
+        width: 1em;
+        margin: 6px 0 16px 0;
+    }
 </style>

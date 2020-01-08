@@ -1,192 +1,87 @@
 <template>
-    <div id="home">
-        <v-data-table
-                :headers="headers"
-                :items="desserts"
-        >
-            <template v-slot:item.name="props">
-                <v-edit-dialog
-                        :return-value.sync="props.item.name"
-                        @save="save"
-                        @cancel="cancel"
-                        @open="open"
-                        @close="close"
-                > {{ props.item.name }}
-                    <template v-slot:input>
-                        <v-text-field
-                                v-model="props.item.name"
-                                :rules="[max25chars]"
-                                label="Edit"
-                                single-line
-                                counter
-                        ></v-text-field>
-                    </template>
-                </v-edit-dialog>
-            </template>
-            <template v-slot:item.iron="props">
-                <v-edit-dialog
-                        :return-value.sync="props.item.iron"
-                        large
-                        persistent
-                        @save="save"
-                        @cancel="cancel"
-                        @open="open"
-                        @close="close"
-                >
-                    <div>{{ props.item.iron }}</div>
-                    <template v-slot:input>
-                        <div class="mt-4 title">Update Iron</div>
-                    </template>
-                    <template v-slot:input>
-                        <v-text-field
-                                v-model="props.item.iron"
-                                :rules="[max25chars]"
-                                label="Edit"
-                                single-line
-                                counter
-                                autofocus
-                        ></v-text-field>
-                    </template>
-                </v-edit-dialog>
-            </template>
-        </v-data-table>
-
-        <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-            {{ snackText }}
-            <v-btn text @click="snack = false">Close</v-btn>
-        </v-snackbar>
-
-        <router-link to="/create" ><v-btn color="primary">Create</v-btn></router-link>
-        <router-link to="/detail" ><v-btn color="primary">Detail</v-btn></router-link>
-
+    <div class="container">
+        <header style="margin: 2em">
+            <h1>Liste QRR</h1>
+            <md-icon @click.native="$router.push('/create')" class="md-size-3x icon">add_circle_outline</md-icon>
+        </header>
+        <div>
+            <md-table v-model="bill" md-sort="firstname" md-sort-order="desc" md-card>
+                <md-table-row @click="navigateToDetailPage()" slot="md-table-row" slot-scope="{ item }">
+                    <md-table-cell md-label="ID" md-sort-by="id">{{ item.id }}</md-table-cell>
+                    <md-table-cell md-label="Vorname" md-sort-by="firstname">{{ item.firstname }}</md-table-cell>
+                    <md-table-cell md-label="Nachname" md-sort-by="lastname">{{ item.lastname }}</md-table-cell>
+                    <md-table-cell md-label="Betrag" md-sort-by="amount">{{ item.amount }}</md-table-cell>
+                    <md-table-cell md-label="Währung" md-sort-by="currency">{{ item.currency }}</md-table-cell>
+                    <md-table-cell md-label="Aktion">
+                        <div class="icon" style="float: left" @click.stop="editBill()">
+                            <md-icon>create</md-icon>
+                        </div>
+                        <div class="icon" style="float: left" @click.stop="deleteBill()">
+                                <md-icon>delete</md-icon>
+                        </div>
+                    </md-table-cell>
+                </md-table-row>
+            </md-table>
+        </div>
+        <footer style="margin-top: 1em">
+            <md-icon>input</md-icon>
+        </footer>
     </div>
 </template>
 
 <script>
     export default {
+        // TODO: Daten aus dem Store darstellen
+        // TODO: Löschen und Editieren implementieren
+
+        name: "Home",
         data () {
             return {
-                snack: false,
-                snackColor: '',
-                snackText: '',
-                max25chars: v => v.length <= 25 || 'Input too long!',
-                pagination: {},
-                headers: [
+                bill: [
                     {
-                        text: 'Dessert (100g serving)',
-                        align: 'left',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Calories', value: 'calories' },
-                    { text: 'Fat (g)', value: 'fat' },
-                    { text: 'Carbs (g)', value: 'carbs' },
-                    { text: 'Protein (g)', value: 'protein' },
-                    { text: 'Iron (%)', value: 'iron' },
-                ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
+                        id: 1,
+                        firstname: "iman",
+                        lastname: "lünsmann",
+                        amount: 3,
+                        currency: "CHF"
                     },
                     {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
+                        id: 2,
+                        firstname: "colin",
+                        lastname: "dillier",
+                        amount: 2,
+                        currency: "GRD"
                     },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
+                ]
             }
         },
         methods: {
-            save () {
-                this.snack = true
-                this.snackColor = 'success'
-                this.snackText = 'Data saved'
+            navigateToDetailPage: function () {
+                this.$router.push("/detail");
             },
-            cancel () {
-                this.snack = true
-                this.snackColor = 'error'
-                this.snackText = 'Canceled'
+            editBill: function () {
+                this.$router.push("/edit");
             },
-            open () {
-                this.snack = true
-                this.snackColor = 'info'
-                this.snackText = 'Dialog opened'
-            },
-            close () {
-                //console.log('Dialog closed')
-            },
-        },
+            deleteBill: function () {
+                this.$router.push("/delete");
+            }
+        }
     }
 </script>
+
+<style scoped>
+    .container {
+        max-width: 100em;
+        display: grid;
+        grid-template-rows: repeat(3, auto);
+    }
+
+    header {
+        display: grid;
+        grid-template-columns: 90% 10%;
+    }
+
+    .icon:hover {
+        cursor: pointer;
+    }
+</style>

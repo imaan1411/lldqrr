@@ -8,7 +8,6 @@
                             <v-toolbar color="primary" dark flat>
                                 <v-toolbar-title>Login</v-toolbar-title>
                                 <v-spacer/>
-
                             </v-toolbar>
                             <v-card-text>
                                 <v-form>
