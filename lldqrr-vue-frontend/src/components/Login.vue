@@ -12,15 +12,14 @@
                             <v-card-text>
                                 <v-form>
                                     <v-text-field
-                                            label="Login"
-                                            name="login"
+                                            v-model="user.email"
+                                            label="Email"
                                             prepend-icon="mdi-account"
-                                            type="text"
+                                            type="email"
                                     />
                                     <v-text-field
-                                            id="password"
+                                            v-model="user.password"
                                             label="Password"
-                                            name="password"
                                             prepend-icon="mdi-lock"
                                             type="password"
                                     />
@@ -28,8 +27,26 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer/>
-                                <md-button class="md-dense md-raised md-primary">Registrieren</md-button>
-                                <router-link to="/home"><md-button class="md-dense md-raised md-primary">Login</md-button></router-link>
+                                <md-dialog class="registerDialog" :md-active.sync="isRegisterOpen">
+                                    <h1 style="margin-bottom: 0.5em">Registrieren</h1>
+                                    <md-field>
+                                        <label>Email</label>
+                                        <md-input v-model="user.email"></md-input>
+                                    </md-field>
+                                    <md-field>
+                                        <label>Passwort</label>
+                                        <md-input type="password" v-model="user.password"></md-input>
+                                    </md-field>
+                                    <md-button class="md-dense md-raised md-primary"
+                                               style="width: 150px; margin-left: 0" @click="registerToApp()">
+                                        Registrieren
+                                    </md-button>
+                                </md-dialog>
+
+                                <md-button class="md-dense md-raised md-primary" @click="isRegisterOpen = true">
+                                    Registrieren
+                                </md-button>
+                                <md-button @click="login()" class="md-dense md-raised md-primary">Login</md-button>
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -40,9 +57,54 @@
 </template>
 
 <script>
+    import firebase from 'firebase';
+    import "firebase/auth"
+
+    // TODO: error handling für paasswort mind 6 stellen & email adresse muss ein @haben & und passwort oder email falsch
     export default {
-        props: {
-            source: String,
+        data: function () {
+            return {
+                isRegisterOpen: false,
+                loggedInUser: {},
+                user: {
+                    email: "",
+                    password: ""
+                },
+            }
         },
+        methods: {
+            registerToApp() {
+                firebase
+                    .auth()
+                    .createUserWithEmailAndPassword(this.user.email, this.user.password)
+                    .then(response => {
+                        this.loggedInUser = response.user;
+                        this.$router.push('/home');
+                    })
+                    .catch(err => {
+                        this.error = err.message;
+                    });
+            },
+            login() {
+                firebase
+                    .auth()
+                    .signInWithEmailAndPassword(this.user.email, this.user.password)
+                    .then(response => {
+                        this.$router.push('/home');
+                        this.loggedInUser = response.user;
+                    })
+                    .catch(err => {
+                        this.error = err.message;
+                    });
+            }
+        }
     }
 </script>
+
+<style>
+    .registerDialog {
+        padding: 3em 3em 1em 3em;
+        height: 21em;
+        width: 40em;
+    }
+</style>

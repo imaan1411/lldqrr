@@ -3,15 +3,17 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import VueRouter from 'vue-router';
 import { routes } from './routes';
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
-import 'material-components-web/dist/material-components-web.min.css'
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.min.css';
+import 'vue-material/dist/theme/default.css';
+import 'material-components-web/dist/material-components-web.min.css';
+import { firestorePlugin } from 'vuefire';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
+Vue.use(firestorePlugin);
 
 const router = new VueRouter({
   routes,
@@ -23,4 +25,4 @@ new Vue({
   vuetify,
   router,
   render: h => h(App)
-}).$mount('#app');
+});
