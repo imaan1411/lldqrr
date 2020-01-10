@@ -8,12 +8,15 @@ import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
 import 'material-components-web/dist/material-components-web.min.css';
 import { firestorePlugin } from 'vuefire';
+import Vuex from 'vuex';
+import store from './store/store'
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(firestorePlugin);
+Vue.use(Vuex);
 
 const router = new VueRouter({
   routes,
@@ -22,6 +25,7 @@ const router = new VueRouter({
 
 new Vue({
   el: '#app',
+  store,
   vuetify,
   router,
   render: h => h(App)
