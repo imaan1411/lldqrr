@@ -23,20 +23,33 @@
                 </md-table-row>
             </md-table>
         </div>
+        <button @click="getsachee()">asdfgiawgefzagwefagwuefz</button>
         <footer style="margin-top: 1em">
-            <md-icon>input</md-icon>
+            <button @click="logout()"><md-icon>input</md-icon></button>
         </footer>
     </div>
 </template>
 
 <script>
+    import firebase from 'firebase';
+    import "firebase/auth"
+    import Cookies from 'js-cookie'
+    import {dbb} from '@/firebaseConfig'
+
     export default {
         // TODO: Daten aus dem Store darstellen
         // TODO: Löschen und Editieren implementieren
 
+
         name: "Home",
         data () {
             return {
+                bills: {
+                },
+                adresse: {
+
+                },
+
                 bill: [
                     {
                         id: 1,
@@ -56,6 +69,35 @@
             }
         },
         methods: {
+            getsachee: function() {
+/*
+                dbb.on('value', snap => {
+                    this.adresse = snap.val();
+                    // eslint-disable-next-line no-console
+                    console.log(this.adresse.Rg7P41UqSHNZSTHQ1BX2s4ofYH43.iman);
+                    // eslint-disable-next-line no-console
+                    console.log(this.$store.userId);
+
+                });
+*/
+                //dbb.push(this.$store.state.userr);
+                this.$store.dispatch("bindTodos");
+                // eslint-disable-next-line no-console
+                console.log(dbb.user);
+                //dbb.set(JSON.parse(this.$store.user));
+
+            },
+
+
+            logout: function() {
+                if (!Cookies.get("userId").empty) {
+                    firebase.auth().signOut();
+                    this.$store.loggedIn = false;
+                    Cookies.remove("userId");
+                    this.$router.push("/");
+                }
+            },
+
             navigateToDetailPage: function () {
                 this.$router.push("/detail");
             },

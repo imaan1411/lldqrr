@@ -21,8 +21,64 @@
             </md-field>
             <h2>Rechnungssteller</h2>
             <md-field>
-                <label>IBAN</label>
-                <md-input v-model="biller.iban"></md-input>
+                <label>Vorname</label>
+                <md-input v-model="bill.firstName"></md-input>
+            </md-field>
+            <md-field>
+                <label>Nachname</label>
+                <md-input v-model="bill.lastname"></md-input>
+            </md-field>
+            <md-field>
+                <label>Strasse</label>
+                <md-input v-model="bill.creditorStreet"></md-input>
+            </md-field>
+            <md-field>
+                <label>Hausnummer</label>
+                <md-input v-model="bill.creditorBuildingNumber"></md-input>
+            </md-field>
+            <md-field>
+                <label>Stadt</label>
+                <md-input v-model="bill.creditorCity"></md-input>
+            </md-field>
+            <md-field>
+                <label>PLZ</label>
+                <md-input v-model="bill.creditorPostalCode"></md-input>
+            </md-field>
+            <md-field>
+                <label>Land</label>
+                <md-input v-model="bill.creditorLand"></md-input>
+            </md-field>
+            <md-field>
+                <label>Amount</label>
+                <md-input v-model="bill.amount"></md-input>
+            </md-field>
+            <md-field>
+                <label>Währung</label>
+                <md-input v-model="bill.currency"></md-input>
+            </md-field>
+            <md-field>
+                <label>Referenz Typ</label>
+                <md-input v-model="bill.referenceType"></md-input>
+            </md-field>
+            <md-field>
+                <label>Referenz Nummer</label>
+                <md-input v-model="bill.referenceNumber"></md-input>
+            </md-field>
+            <md-field>
+                <label>Strukturierte Zahlungs Info</label>
+                <md-input v-model="bill.structuredPaymentInfo"></md-input>
+            </md-field>
+            <md-field>
+                <label>Unstrukturierte Zahlungs Info</label>
+                <md-input v-model="bill.unstructuredPaymentInfo"></md-input>
+            </md-field>
+            <md-field>
+                <label>QR Typ</label>
+                <md-input v-model="bill.qrType"></md-input>
+            </md-field>
+            <md-field>
+                <label>Version</label>
+                <md-input v-model="bill.version"></md-input>
             </md-field>
         </div>
         <div class="qrCodeContainer">
@@ -38,7 +94,7 @@
 
                 />
                 <md-button class="md-dense md-raised" style="position: absolute; bottom: 0" @click="checkIfUserInputIsNull()">Abbrechen</md-button>
-                <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0; margin-left: 10em">Speichern</md-button>
+                <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0; margin-left: 10em" @click="createBill()">Speichern</md-button>
             </div>
         </div>
     </div>
@@ -53,6 +109,8 @@
         name: "Create",
         data: function () {
             return {
+                bill: {},
+
                 receiver: {
                     firstName: "",
                     lastName: "",
@@ -66,6 +124,9 @@
             }
         },
         methods: {
+            createBill: function() {
+                this.$store.commit('createBill', this.bill);
+            },
             navigateToHome: function () {
                 this.$router.push("/home");
             },

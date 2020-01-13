@@ -59,6 +59,7 @@
 <script>
     import firebase from 'firebase';
     import "firebase/auth"
+    import Cookies from 'js-cookie'
 
     // TODO: error handling für paasswort mind 6 stellen & email adresse muss ein @haben & und passwort oder email falsch
     export default {
@@ -78,7 +79,8 @@
                     .auth()
                     .createUserWithEmailAndPassword(this.user.email, this.user.password)
                     .then(response => {
-                        this.loggedInUser = response.user;
+                        Cookies.set("userId", response.user.uid);
+                        this.$store.loggedIn = true;
                         this.$router.push('/home');
                     })
                     .catch(err => {
@@ -90,8 +92,9 @@
                     .auth()
                     .signInWithEmailAndPassword(this.user.email, this.user.password)
                     .then(response => {
+                        Cookies.set("userId", response.user.uid);
+                        this.$store.loggedIn = true;
                         this.$router.push('/home');
-                        this.loggedInUser = response.user;
                     })
                     .catch(err => {
                         this.error = err.message;
