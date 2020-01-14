@@ -7,8 +7,7 @@
         <div>
             <md-table v-model="bill" md-sort="firstname" md-sort-order="desc" md-card>
                 <md-table-row @click="navigateToDetailPage()" slot="md-table-row" slot-scope="{ item }">
-                    <md-table-cell md-label="ID" md-sort-by="id">{{ item.id }}</md-table-cell>
-                    <md-table-cell md-label="Vorname" md-sort-by="firstname">{{ item.firstname }}</md-table-cell>
+                    <md-table-cell md-label="Vorname" md-sort-by="firstName">{{ item.firstName }}</md-table-cell>
                     <md-table-cell md-label="Nachname" md-sort-by="lastname">{{ item.lastname }}</md-table-cell>
                     <md-table-cell md-label="Betrag" md-sort-by="amount">{{ item.amount }}</md-table-cell>
                     <md-table-cell md-label="Währung" md-sort-by="currency">{{ item.currency }}</md-table-cell>
@@ -23,7 +22,6 @@
                 </md-table-row>
             </md-table>
         </div>
-        <button @click="getsachee()">asdfgiawgefzagwefagwuefz</button>
         <footer style="margin-top: 1em">
             <button @click="logout()"><md-icon>input</md-icon></button>
         </footer>
@@ -37,58 +35,31 @@
     import {dbb} from '@/firebaseConfig'
 
     export default {
-        // TODO: Daten aus dem Store darstellen
         // TODO: Löschen und Editieren implementieren
-
-
         name: "Home",
+        created() {
+            let returnArr = [];
+            let that = this;
+            dbb.on('value', function(snapshot) {
+                snapshot.forEach(childSnapshot => {
+                    returnArr.push(childSnapshot.val());
+                    that.list = returnArr;
+                });
+                let billArray = JSON.parse(JSON.stringify(that.list[0].valueOf()));
+                for(let key in billArray.Bill) {
+                    let value = billArray.Bill[key];
+                    that.bill.push(value);
+                }
+            });
+        },
         data () {
             return {
-                bills: {
-                },
-                adresse: {
-
-                },
-
-                bill: [
-                    {
-                        id: 1,
-                        firstname: "iman",
-                        lastname: "lünsmann",
-                        amount: 3,
-                        currency: "CHF"
-                    },
-                    {
-                        id: 2,
-                        firstname: "colin",
-                        lastname: "dillier",
-                        amount: 2,
-                        currency: "GRD"
-                    },
-                ]
+                list: {},
+                bill: [],
             }
         },
+
         methods: {
-            getsachee: function() {
-/*
-                dbb.on('value', snap => {
-                    this.adresse = snap.val();
-                    // eslint-disable-next-line no-console
-                    console.log(this.adresse.Rg7P41UqSHNZSTHQ1BX2s4ofYH43.iman);
-                    // eslint-disable-next-line no-console
-                    console.log(this.$store.userId);
-
-                });
-*/
-                //dbb.push(this.$store.state.userr);
-                this.$store.dispatch("bindTodos");
-                // eslint-disable-next-line no-console
-                console.log(dbb.user);
-                //dbb.set(JSON.parse(this.$store.user));
-
-            },
-
-
             logout: function() {
                 if (!Cookies.get("userId").empty) {
                     firebase.auth().signOut();

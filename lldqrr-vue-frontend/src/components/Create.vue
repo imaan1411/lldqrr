@@ -2,84 +2,113 @@
     <div class="container">
         <h1 class="mainTitle">Rechnung erfassen</h1>
         <div class="receiverContainer">
-            <h2>Empfänger</h2>
-            <md-field>
-                <label>Vorname</label>
-                <md-input v-model="receiver.firstName"></md-input>
-            </md-field>
-            <md-field>
-                <label>Name</label>
-                <md-input v-model="receiver.lastName"></md-input>
-            </md-field>
-            <md-field>
-                <label>IBAN</label>
-                <md-input v-model="receiver.iban"></md-input>
-            </md-field>
-            <md-field>
-                <label>Mitteilung an den Empfänger</label>
-                <md-input v-model="receiver.message"></md-input>
-            </md-field>
-            <h2>Rechnungssteller</h2>
-            <md-field>
-                <label>Vorname</label>
-                <md-input v-model="bill.firstName"></md-input>
-            </md-field>
-            <md-field>
-                <label>Nachname</label>
-                <md-input v-model="bill.lastname"></md-input>
-            </md-field>
-            <md-field>
-                <label>Strasse</label>
-                <md-input v-model="bill.creditorStreet"></md-input>
-            </md-field>
-            <md-field>
-                <label>Hausnummer</label>
-                <md-input v-model="bill.creditorBuildingNumber"></md-input>
-            </md-field>
-            <md-field>
-                <label>Stadt</label>
-                <md-input v-model="bill.creditorCity"></md-input>
-            </md-field>
-            <md-field>
-                <label>PLZ</label>
-                <md-input v-model="bill.creditorPostalCode"></md-input>
-            </md-field>
-            <md-field>
-                <label>Land</label>
-                <md-input v-model="bill.creditorLand"></md-input>
-            </md-field>
-            <md-field>
-                <label>Amount</label>
-                <md-input v-model="bill.amount"></md-input>
-            </md-field>
-            <md-field>
-                <label>Währung</label>
-                <md-input v-model="bill.currency"></md-input>
-            </md-field>
-            <md-field>
-                <label>Referenz Typ</label>
-                <md-input v-model="bill.referenceType"></md-input>
-            </md-field>
-            <md-field>
-                <label>Referenz Nummer</label>
-                <md-input v-model="bill.referenceNumber"></md-input>
-            </md-field>
-            <md-field>
-                <label>Strukturierte Zahlungs Info</label>
-                <md-input v-model="bill.structuredPaymentInfo"></md-input>
-            </md-field>
-            <md-field>
-                <label>Unstrukturierte Zahlungs Info</label>
-                <md-input v-model="bill.unstructuredPaymentInfo"></md-input>
-            </md-field>
-            <md-field>
-                <label>QR Typ</label>
-                <md-input v-model="bill.qrType"></md-input>
-            </md-field>
-            <md-field>
-                <label>Version</label>
-                <md-input v-model="bill.version"></md-input>
-            </md-field>
+            <md-card style="margin: 3em 0">
+                <md-card-header>
+                    <div class="md-title">Empfänger</div>
+                </md-card-header>
+
+                <md-card-expand>
+                    <md-card-actions style="float: right" md-alignment="space-between">
+                        <md-card-expand-trigger>
+                            <md-button class="md-icon-button">
+                                <md-icon>keyboard_arrow_down</md-icon>
+                            </md-button>
+                        </md-card-expand-trigger>
+                    </md-card-actions>
+                    <md-card-expand-content>
+                        <md-card-content>
+                            <md-field>
+                                <label>Vorname</label>
+                                <md-input v-model="bill.firstName"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Nachname</label>
+                                <md-input v-model="bill.lastname"></md-input>
+                            </md-field>
+                        </md-card-content>
+                    </md-card-expand-content>
+                </md-card-expand>
+            </md-card>
+            <md-card>
+                <md-card-header>
+                    <div class="md-title">Rechnungssteller</div>
+                </md-card-header>
+
+                <md-card-expand>
+                    <md-card-actions style="float: right" md-alignment="space-between">
+                        <md-card-expand-trigger>
+                            <md-button class="md-icon-button">
+                                <md-icon>keyboard_arrow_down</md-icon>
+                            </md-button>
+                        </md-card-expand-trigger>
+                    </md-card-actions>
+
+                    <md-card-expand-content>
+                        <md-card-content>
+                            <md-field>
+                                <label>Vorname</label>
+                                <md-input v-model="bill.firstName"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Nachname</label>
+                                <md-input v-model="bill.lastname"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Strasse</label>
+                                <md-input v-model="bill.creditorStreet"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Hausnummer</label>
+                                <md-input v-model="bill.creditorBuildingNumber"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Stadt</label>
+                                <md-input v-model="bill.creditorCity"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>PLZ</label>
+                                <md-input v-model="bill.creditorPostalCode"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Land</label>
+                                <md-input v-model="bill.creditorLand"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Amount</label>
+                                <md-input v-model="bill.amount"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Währung</label>
+                                <md-input v-model="bill.currency"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Referenz Typ</label>
+                                <md-input v-model="bill.referenceType"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Referenz Nummer</label>
+                                <md-input v-model="bill.referenceNumber"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Strukturierte Zahlungs Info</label>
+                                <md-input v-model="bill.structuredPaymentInfo"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Unstrukturierte Zahlungs Info</label>
+                                <md-input v-model="bill.unstructuredPaymentInfo"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>QR Typ</label>
+                                <md-input v-model="bill.qrType"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Version</label>
+                                <md-input v-model="bill.version"></md-input>
+                            </md-field>
+                        </md-card-content>
+                    </md-card-expand-content>
+                </md-card-expand>
+            </md-card>
         </div>
         <div class="qrCodeContainer">
             <h2>QR Code</h2>
@@ -91,7 +120,6 @@
                         md-confirm-text="Ja"
                         md-cancel-text="Nein"
                         @md-confirm="navigateToHome"
-
                 />
                 <md-button class="md-dense md-raised" style="position: absolute; bottom: 0" @click="checkIfUserInputIsNull()">Abbrechen</md-button>
                 <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0; margin-left: 10em" @click="createBill()">Speichern</md-button>
@@ -105,27 +133,18 @@
     export default {
         // TODO: Validierung der Inputfelder
         // TODO: QR Code generieren
-        // TODO: Funktionalität für Speichern implementieren
+        // TODO: ID für Eintrag definieren
         name: "Create",
         data: function () {
             return {
                 bill: {},
-
-                receiver: {
-                    firstName: "",
-                    lastName: "",
-                    iban: "",
-                    message: ""
-                },
-                biller: {
-                    iban: ""
-                },
                 confirmAbort: false
             }
         },
         methods: {
             createBill: function() {
                 this.$store.commit('createBill', this.bill);
+                this.$router.push("/home");
             },
             navigateToHome: function () {
                 this.$router.push("/home");
@@ -143,7 +162,6 @@
                         return false;
                 }
                 return true;
-
             }
         }
     }
