@@ -4,7 +4,7 @@
             <h1>Liste QRR</h1>
             <md-icon @click.native="$router.push('/create')" class="md-size-3x icon">add_circle_outline</md-icon>
         </header>
-        <div>
+        <div v-if="isData">
             <md-table v-model="bill" md-sort="firstname" md-sort-order="desc" md-card>
                 <md-table-row @click="navigateToDetailPage()" slot="md-table-row" slot-scope="{ item }">
                     <md-table-cell md-label="Vorname" md-sort-by="firstName">{{ item.firstName }}</md-table-cell>
@@ -12,7 +12,7 @@
                     <md-table-cell md-label="Betrag" md-sort-by="amount">{{ item.amount }}</md-table-cell>
                     <md-table-cell md-label="Währung" md-sort-by="currency">{{ item.currency }}</md-table-cell>
                     <md-table-cell md-label="Aktion">
-                        <div class="icon" style="float: left" @click.stop="editBill()">
+                        <div class="icon" style="float: left; padding-right: 1em" @click.stop="editBill()">
                             <md-icon>create</md-icon>
                         </div>
                         <div class="icon" style="float: left" @click.stop="deleteBill()">
@@ -21,6 +21,10 @@
                     </md-table-cell>
                 </md-table-row>
             </md-table>
+        </div>
+        <div v-else style="text-align: center; height: 10em; margin-top: 5em">
+            <h2>Sie haben noch keine Einträge getätigt!</h2>
+            <h3>Klicken Sie auf das Plus um eine Rechnung zu erstellen</h3>
         </div>
         <footer style="margin-top: 1em">
             <button @click="logout()"><md-icon>input</md-icon></button>
@@ -38,22 +42,30 @@
         // TODO: Löschen und Editieren implementieren
         name: "Home",
         created() {
-            let returnArr = [];
-            let that = this;
-            dbb.on('value', function(snapshot) {
-                snapshot.forEach(childSnapshot => {
-                    returnArr.push(childSnapshot.val());
-                    that.list = returnArr;
-                });
-                let billArray = JSON.parse(JSON.stringify(that.list[0].valueOf()));
-                for(let key in billArray.Bill) {
-                    let value = billArray.Bill[key];
-                    that.bill.push(value);
+            dbb.orderByKey().equalTo(Cookies.get("userId")).on("child_added", snap => {
+                if (snap.key === Cookies.get("userId")) {
+                    let returnArr = [];
+                    let that = this;
+                    dbb.orderByKey().equalTo(Cookies.get("userId")).on('value', function(snapshot) {
+                        snapshot.forEach(childSnapshot => {
+                            returnArr.push(childSnapshot.val());
+                            that.list = returnArr;
+                        });
+                        let billArray = JSON.parse(JSON.stringify(that.list[0].valueOf()));
+                        for(let key in billArray.Bill) {
+                            let value = billArray.Bill[key];
+                            that.bill.push(value);
+                        }
+                    });
+                    that.isData = true;
+                } else {
+                    this.isData = false;
                 }
             });
         },
         data () {
             return {
+                isData: true,
                 list: {},
                 bill: [],
             }
@@ -68,7 +80,6 @@
                     this.$router.push("/");
                 }
             },
-
             navigateToDetailPage: function () {
                 this.$router.push("/detail");
             },
