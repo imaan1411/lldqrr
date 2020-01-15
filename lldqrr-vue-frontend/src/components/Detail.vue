@@ -34,13 +34,13 @@
             <div></div>
             <div><h2>Zahlteil</h2></div>
             <div @click="createQRCode()">
-                <p>clicke hier um den QR Code zu sehen</p>
+                <p v-if="!qrCodeVisible">clicke hier um den QR Code zu sehen</p>
 
                 <div id="qrcode"></div>
             </div>
             <div>
-                <div>
-                    <div style="float: left; padding-right: 1em">
+                <div style="margin-top: 1em">
+                    <div style="float: left; padding-right: 1em;">
                         <b>Währung</b><br>
                         {{bill.currency}}
                     </div>
@@ -83,11 +83,8 @@
     import {lldqrrdb} from '@/firebaseConfig'
 
     export default {
-        // TODO: Daten aus store anzeigen
-        // TODO: QR Code generieren
         // TODO: Download der Daten implementieren (wenn keine Zeit, Fehlermeldung ist noch nicht implementiert)
         // TODO: Wenn noch spass daran, Teil Money auf gleiche höhe bringen
-        // TODO: id in url mitgeben
         name: "Detail",
         mounted() {
             let that = this;
@@ -108,6 +105,7 @@
             return {
                 obj: {},
                 bill: {},
+                qrCodeVisible: false,
                 receiver: {
                     firstName: "iman",
                     lastName: "lünsmann",
@@ -120,6 +118,7 @@
         },
         methods: {
             createQRCode: function() {
+                this.qrCodeVisible = true;
                 // eslint-disable-next-line no-undef
                 new QRCode(document.getElementById("qrcode"),  {
                     text: this.generateString(),

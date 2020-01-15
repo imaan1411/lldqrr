@@ -113,7 +113,7 @@
         <div class="qrCodeContainer">
             <h2>QR Code</h2>
             <div id="qrcode"></div>
-            <md-button @click="createQRCode()" class="md-dense md-raised">Generiere QR Code</md-button>
+            <md-button style="width: 250px" @click="createQRCode()" class="md-dense md-raised">Generiere QR Code</md-button>
             <div style="position: relative">
                 <md-dialog-confirm
                         :md-active.sync="confirmAbort"

@@ -48,7 +48,6 @@
     import {lldqrrdb} from '@/firebaseConfig'
 
     export default {
-        // TODO: Löschen und Editieren implementieren
         name: "Home",
         created() {
             lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on("child_added", snap => {
@@ -93,9 +92,6 @@
             },
             navigateToDetailPage: function (id) {
                 this.$router.push("/detail/" + id);
-            },
-            editBill: function () {
-                this.$router.push("/edit");
             },
         }
     }

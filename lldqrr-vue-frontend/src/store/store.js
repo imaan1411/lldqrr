@@ -7,12 +7,14 @@ import Cookies from 'js-cookie'
 Vue.use(Vuex);
 
     let id = 1;
-    lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", a => {
-        // eslint-disable-next-line no-unused-vars
-        a.forEach(childSnapshot => {
-            id++;
+    if(getCookie("userId")) {
+        lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", a => {
+            // eslint-disable-next-line no-unused-vars
+            a.forEach(childSnapshot => {
+                id++;
+            });
         });
-    });
+    }
 
 export default new Vuex.Store({
     mutations: {
@@ -47,3 +49,22 @@ export default new Vuex.Store({
         loggedIn: false
     },
 });
+
+function getCookie(name) {
+    let dc = document.cookie;
+    let prefix = name + "=";
+    let begin = dc.indexOf("; " + prefix);
+    if (begin === -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
+    }
+    else
+    {
+        begin += 2;
+        var end = document.cookie.indexOf(";", begin);
+        if (end === -1) {
+            end = dc.length;
+        }
+    }
+    return decodeURI(dc.substring(begin + prefix.length, end));
+}
