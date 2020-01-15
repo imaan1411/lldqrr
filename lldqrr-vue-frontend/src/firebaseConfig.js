@@ -14,14 +14,3 @@ const app = firebase.initializeApp({
 export const db = app.database();
 export const lldqrrdb = db.ref('LLDQRRDB');
 
-//const functions = require('firebase-functions');
-/*
-
-exports.countPrescriptions = functions.database.ref(`/prescriptions`).onWrite((change, context) => {
-    const data = change.after.val();
-    const count = Object.keys(data).length;
-    return change.after.ref.child('_count').set(count);
-});
-*/
-
-

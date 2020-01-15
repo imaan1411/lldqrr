@@ -5,6 +5,7 @@ import {lldqrrdb} from '@/firebaseConfig'
 import Cookies from 'js-cookie'
 
 Vue.use(Vuex);
+
     let id = 1;
     lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", a => {
         // eslint-disable-next-line no-unused-vars
