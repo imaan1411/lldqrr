@@ -6,7 +6,8 @@
         </header>
         <div v-if="isData">
             <md-table v-model="bill" md-sort="firstname" md-sort-order="desc" md-card>
-                <md-table-row @click="navigateToDetailPage()" slot="md-table-row" slot-scope="{ item }">
+                <md-table-row @click="navigateToDetailPage(item.id)" slot="md-table-row" slot-scope="{ item }">
+                    <md-table-cell md-label="Id" md-sort-by="id">{{ item.id }}</md-table-cell>
                     <md-table-cell md-label="Vorname" md-sort-by="firstName">{{ item.firstName }}</md-table-cell>
                     <md-table-cell md-label="Nachname" md-sort-by="lastname">{{ item.lastname }}</md-table-cell>
                     <md-table-cell md-label="Betrag" md-sort-by="amount">{{ item.amount }}</md-table-cell>
@@ -36,17 +37,17 @@
     import firebase from 'firebase';
     import "firebase/auth"
     import Cookies from 'js-cookie'
-    import {dbb} from '@/firebaseConfig'
+    import {lldqrrdb} from '@/firebaseConfig'
 
     export default {
         // TODO: Löschen und Editieren implementieren
         name: "Home",
         created() {
-            dbb.orderByKey().equalTo(Cookies.get("userId")).on("child_added", snap => {
+            lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on("child_added", snap => {
                 if (snap.key === Cookies.get("userId")) {
                     let returnArr = [];
                     let that = this;
-                    dbb.orderByKey().equalTo(Cookies.get("userId")).on('value', function(snapshot) {
+                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on('value', function(snapshot) {
                         snapshot.forEach(childSnapshot => {
                             returnArr.push(childSnapshot.val());
                             that.list = returnArr;
@@ -65,7 +66,7 @@
         },
         data () {
             return {
-                isData: true,
+                isData: false,
                 list: {},
                 bill: [],
             }
@@ -80,8 +81,8 @@
                     this.$router.push("/");
                 }
             },
-            navigateToDetailPage: function () {
-                this.$router.push("/detail");
+            navigateToDetailPage: function (id) {
+                this.$router.push("/detail/" + id);
             },
             editBill: function () {
                 this.$router.push("/edit");

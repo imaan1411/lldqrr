@@ -133,7 +133,6 @@
 <script>
     export default {
         // TODO: Validierung der Inputfelder
-        // TODO: ID für Eintrag definieren
         name: "Create",
         data: function () {
             return {

@@ -12,10 +12,16 @@ const app = firebase.initializeApp({
 });
 
 export const db = app.database();
+export const lldqrrdb = db.ref('LLDQRRDB');
 
+//const functions = require('firebase-functions');
+/*
 
-export const lldqrrUsers = db.ref().child('LLDQRRDB').child('QRRechung').child('Users');
-export const dbb = db.ref('LLDQRRDB');
-export const userColin = lldqrrUsers.child('ID00001ColDil');
+exports.countPrescriptions = functions.database.ref(`/prescriptions`).onWrite((change, context) => {
+    const data = change.after.val();
+    const count = Object.keys(data).length;
+    return change.after.ref.child('_count').set(count);
+});
+*/
 
 
