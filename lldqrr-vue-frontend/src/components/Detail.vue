@@ -6,15 +6,15 @@
             <div>
                 <b>Konto / Zahlbar an</b>
                 <p>CH58 2155 1125 3356 0010 2</p>
-                <p>{{receiver.firstName}} {{receiver.lastName}}</p>
-                <p>{{receiver.address}}</p>
-                <p>{{receiver.postCode}} {{receiver.city}}</p>
-            </div>
-            <div style="margin-top: 7px">
-                <b>Zahlbar durch</b>
                 <p>{{bill.firstName}} {{bill.lastName}}</p>
                 <p>{{bill.creditorStreet}} {{bill.creditorBuildingNumber}}</p>
                 <p>{{bill.creditorPostalCode}} {{bill.creditorCity}}</p>
+            </div>
+            <div style="margin-top: 7px">
+                <b>Zahlbar durch</b>
+                <p>{{receiver.firstName}} {{receiver.lastName}}</p>
+                <p>{{receiver.address}}</p>
+                <p>{{receiver.postCode}} {{receiver.city}}</p>
             </div>
             <div>
                 <div>
@@ -57,9 +57,9 @@
             <div>
                 <b>Konto / Zahlbar an</b>
                 <p>CH58 2155 1125 3356 0010 2</p>
-                <p>{{receiver.firstName}} {{receiver.lastName}}</p>
-                <p>{{receiver.address}}</p>
-                <p>{{receiver.postCode}} {{receiver.city}}</p>
+                <p>{{bill.firstName}} {{bill.lastName}}</p>
+                <p>{{bill.creditorStreet}} {{bill.creditorBuildingNumber}}</p>
+                <p>{{bill.creditorPostalCode}} {{bill.creditorCity}}</p>
             </div>
             <div>
                 <b>Zusätzliche Informationen</b><br>
@@ -67,12 +67,17 @@
             </div>
             <div style="margin-top: 7px">
                 <b>Zahlbar durch</b>
-                <p>{{bill.firstName}} {{bill.lastName}}</p>
-                <p>{{bill.creditorStreet}} {{bill.creditorBuildingNumber}}</p>
-                <p>{{bill.creditorPostalCode}} {{bill.creditorCity}}</p>
+                <p>{{receiver.firstName}} {{receiver.lastName}}</p>
+                <p>{{receiver.address}}</p>
+                <p>{{receiver.postCode}} {{receiver.city}}</p>
             </div>
             <div style="text-align: right">
-                <md-button class="md-dense md-raised" style="width: 1em;">Döwnlöäd</md-button>
+                <md-button @click="download = true" class="md-dense md-raised" style="width: 1em;">Döwnlöäd</md-button>
+                <md-dialog-alert
+                        :md-active.sync="download"
+                        md-title="Achtung"
+                        md-content="Der Download dieses Eintrages ist noch nicht implementiert!" />
+
             </div>
         </div>
     </div>
@@ -106,6 +111,7 @@
                 obj: {},
                 bill: {},
                 qrCodeVisible: false,
+                download: false,
                 receiver: {
                     firstName: "iman",
                     lastName: "lünsmann",

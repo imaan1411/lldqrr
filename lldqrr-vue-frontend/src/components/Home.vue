@@ -22,11 +22,11 @@
                         <md-dialog-alert
                                 :md-active.sync="first"
                                 md-title="Achtung"
-                                md-content="Das Editieren eines Eintrages wurde noch nicht implementiert!" />
+                                md-content="Das Editieren eines Eintrages ist noch nicht implementiert!" />
                         <md-dialog-alert
                                 :md-active.sync="second"
                                 md-title="Achtung"
-                                md-content="Das Löschen eines Eintrages wurde noch nicht implementiert!" />
+                                md-content="Das Löschen eines Eintrages ist noch nicht implementiert!" />
                     </md-table-cell>
                 </md-table-row>
             </md-table>
