@@ -112,7 +112,8 @@
         </div>
         <div class="qrCodeContainer">
             <h2>QR Code</h2>
-            <div style="background: cadetblue; height: 250px; width: 250px; text-align: center">QR Code Placeholder</div>
+            <div id="qrcode"></div>
+            <md-button @click="createQRCode()" class="md-dense md-raised">Generiere QR Code</md-button>
             <div style="position: relative">
                 <md-dialog-confirm
                         :md-active.sync="confirmAbort"
@@ -132,7 +133,6 @@
 <script>
     export default {
         // TODO: Validierung der Inputfelder
-        // TODO: QR Code generieren
         // TODO: ID für Eintrag definieren
         name: "Create",
         data: function () {
@@ -144,13 +144,13 @@
         methods: {
             createBill: function() {
                 this.$store.commit('createBill', this.bill);
-                this.$router.push("/home");
+                this.navigateToHome();
             },
             navigateToHome: function () {
                 this.$router.push("/home");
             },
             checkIfUserInputIsNull: function () {
-                if (this.checkPropertys(this.receiver) && this.checkPropertys(this.biller)) {
+                if (this.checkPropertys(this.bill)) {
                     this.navigateToHome();
                 } else {
                     this.confirmAbort = true;
@@ -162,7 +162,30 @@
                         return false;
                 }
                 return true;
+            },
+            createQRCode: function() {
+                // eslint-disable-next-line no-undef
+                new QRCode(document.getElementById("qrcode"),  {
+                    text: this.generateString(),
+                    width: 250,
+                    height: 250,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    // eslint-disable-next-line no-undef
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            },
+            generateString: function () {
+                let obj = this.bill.valueOf();
+                let arr = [];
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        arr.push(key + ':' + obj[key]);
+                    }
+                }
+                return arr.join(',');
             }
+
         }
     }
 </script>
@@ -185,7 +208,7 @@
         grid-column: 3;
         grid-row: 2;
         display: grid;
-        grid-template-rows: 5em 15em 10em;
+        grid-template-rows: 5em 20em 3em 5em;
     }
 
     .container {
