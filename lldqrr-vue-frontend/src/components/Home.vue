@@ -54,7 +54,7 @@
                 if (snap.key === Cookies.get("userId")) {
                     let returnArr = [];
                     let that = this;
-                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on('value', function(snapshot) {
+                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on('value', snapshot=> {
                         snapshot.forEach(childSnapshot => {
                             returnArr.push(childSnapshot.val());
                             that.list = returnArr;

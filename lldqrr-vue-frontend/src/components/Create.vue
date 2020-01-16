@@ -163,8 +163,12 @@
                 return true;
             },
             createQRCode: function() {
+            const qrCodeEle = document.getElementById("qrcode");
+                while (qrCodeEle.firstChild) {
+                     qrCodeEle.removeChild(qrCodeEle.firstChild);
+                }
                 // eslint-disable-next-line no-undef
-                new QRCode(document.getElementById("qrcode"),  {
+                new QRCode(qrCodeEle,  {
                     text: this.generateString(),
                     width: 250,
                     height: 250,
