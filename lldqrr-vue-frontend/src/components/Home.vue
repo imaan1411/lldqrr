@@ -16,14 +16,13 @@
                         <div class="icon" style="float: left; padding-right: 1em" @click.stop="first = true">
                             <md-icon>create</md-icon>
                         </div>
-                        <div @click.stop="deleteRow(item.id)" class="icon" style="float: left" >
-                                <md-icon>delete</md-icon>
+                        <div @click.stop="deleteRow(item.id)" class="icon" style="float: left">
+                            <md-icon>delete</md-icon>
                         </div>
                         <md-dialog-alert
                                 :md-active.sync="first"
                                 md-title="Achtung"
-                                md-content="Das Editieren eines Eintrages ist noch nicht implementiert!" />
-
+                                md-content="Das Editieren eines Eintrages ist noch nicht implementiert!"/>
                     </md-table-cell>
                 </md-table-row>
             </md-table>
@@ -33,7 +32,9 @@
             <h3>Klicken Sie auf das Plus um eine Rechnung zu erstellen</h3>
         </div>
         <footer style="margin-top: 1em">
-            <button @click="logout()"><md-icon>input</md-icon></button>
+            <button @click="logout()">
+                <md-icon>input</md-icon>
+            </button>
         </footer>
     </div>
 </template>
@@ -47,18 +48,18 @@
     export default {
         name: "Home",
         created() {
-        var ref = lldqrrdb.orderByKey().equalTo(Cookies.get("userId"));
+            var ref = lldqrrdb.orderByKey().equalTo(Cookies.get("userId"));
             ref.on("child_added", snap => {
                 if (snap.key === Cookies.get("userId")) {
                     let returnArr = [];
                     let that = this;
-                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).once('value', snapshot=> {
+                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).once('value', snapshot => {
                         snapshot.forEach(childSnapshot => {
                             returnArr.push(childSnapshot.val());
                             that.list = returnArr;
                         });
                         let billArray = JSON.parse(JSON.stringify(that.list[0].valueOf()));
-                        for(let key in billArray.Bill) {
+                        for (let key in billArray.Bill) {
                             let value = billArray.Bill[key];
                             that.bill.push(value);
                         }
@@ -69,7 +70,7 @@
                 }
             });
         },
-        data () {
+        data() {
             return {
                 isData: false,
                 list: {},
@@ -80,7 +81,7 @@
         },
 
         methods: {
-            logout: function() {
+            logout: function () {
                 if (!Cookies.get("userId").empty) {
                     firebase.auth().signOut();
                     this.$store.loggedIn = false;
@@ -92,18 +93,16 @@
                 this.$router.push("/detail/" + id);
             },
             deleteRow: id => {
-            if(id != null)
-            {
-                var userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
-                if( userBills != null )
-                {
-                userBills.orderByChild("id").equalTo(id).once("value", snap => {
-                snap.forEach( snapchild => {
-                 userBills.child(snapchild.key).remove();
-                });
-                });
+                if (id != null) {
+                    var userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
+                    if (userBills != null) {
+                        userBills.orderByChild("id").equalTo(id).once("value", snap => {
+                            snap.forEach(snapchild => {
+                                userBills.child(snapchild.key).remove();
+                            });
+                        });
+                    }
                 }
-            }
             },
         }
     }

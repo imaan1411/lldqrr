@@ -113,7 +113,8 @@
         <div class="qrCodeContainer">
             <h2>QR Code</h2>
             <div id="qrcode"></div>
-            <md-button style="width: 250px" @click="createQRCode()" class="md-dense md-raised">Generiere QR Code</md-button>
+            <md-button style="width: 250px" @click="createQRCode()" class="md-dense md-raised">Generiere QR Code
+            </md-button>
             <div style="position: relative">
                 <md-dialog-confirm
                         :md-active.sync="confirmAbort"
@@ -122,8 +123,12 @@
                         md-cancel-text="Nein"
                         @md-confirm="navigateToHome"
                 />
-                <md-button class="md-dense md-raised" style="position: absolute; bottom: 0" @click="checkIfUserInputIsNull()">Abbrechen</md-button>
-                <md-button class="md-dense md-raised md-primary" style="position: absolute; bottom: 0; margin-left: 10em" @click="createBill()">Speichern</md-button>
+                <md-button class="md-dense md-raised" style="position: absolute; bottom: 0"
+                           @click="checkIfUserInputIsNull()">Abbrechen
+                </md-button>
+                <md-button class="md-dense md-raised md-primary"
+                           style="position: absolute; bottom: 0; margin-left: 10em" @click="createBill()">Speichern
+                </md-button>
             </div>
         </div>
     </div>
@@ -141,7 +146,7 @@
             }
         },
         methods: {
-            createBill: function() {
+            createBill: function () {
                 this.$store.commit('createBill', this.bill);
                 this.navigateToHome();
             },
@@ -162,20 +167,20 @@
                 }
                 return true;
             },
-            createQRCode: function() {
-            const qrCodeEle = document.getElementById("qrcode");
+            createQRCode: function () {
+                const qrCodeEle = document.getElementById("qrcode");
                 while (qrCodeEle.firstChild) {
-                     qrCodeEle.removeChild(qrCodeEle.firstChild);
+                    qrCodeEle.removeChild(qrCodeEle.firstChild);
                 }
                 // eslint-disable-next-line no-undef
-                new QRCode(qrCodeEle,  {
+                new QRCode(qrCodeEle, {
                     text: this.generateString(),
                     width: 250,
                     height: 250,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
                     // eslint-disable-next-line no-undef
-                    correctLevel : QRCode.CorrectLevel.H
+                    correctLevel: QRCode.CorrectLevel.H
                 });
             },
             generateString: function () {
@@ -188,7 +193,6 @@
                 }
                 return arr.join(',');
             }
-
         }
     }
 </script>
@@ -218,5 +222,20 @@
         max-width: 100em;
         display: grid;
         grid-template-columns: 33.3% 33.3% 33.3%;
+    }
+
+    @media (max-width: 819px) {
+        .container {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-rows: auto;
+        }
+    }
+    @media (max-width: 420px) {
+        .container {
+            display: grid;
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+        }
     }
 </style>

@@ -4,8 +4,8 @@ import Create from "@/components/Create";
 import Detail from "@/components/Detail";
 
 export const routes = [
-    { path: '', component: Login},
-    { path: "/home", component: Home},
-    { path: "/create", component: Create},
-    { path: "/detail/:id", component: Detail},
+    {path: '', component: Login},
+    {path: "/home", component: Home},
+    {path: "/create", component: Create},
+    {path: "/detail/:id", component: Detail},
 ];

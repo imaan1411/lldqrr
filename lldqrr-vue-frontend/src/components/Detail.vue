@@ -1,7 +1,9 @@
 <template>
     <div class="container">
         <div class="detailReceiverContainer">
-            <router-link to="/home"><md-button class="md-dense md-raised md-primary toHomeBtn">Zurück</md-button></router-link>
+            <router-link to="/home">
+                <md-button class="md-dense md-raised md-primary toHomeBtn">Zurück</md-button>
+            </router-link>
             <h2 style="margin-bottom: 8px">Empfangsschein</h2>
             <div>
                 <b>Konto / Zahlbar an</b>
@@ -76,7 +78,7 @@
                 <md-dialog-alert
                         :md-active.sync="download"
                         md-title="Achtung"
-                        md-content="Der Download dieses Eintrages ist noch nicht implementiert!" />
+                        md-content="Der Download dieses Eintrages ist noch nicht implementiert!"/>
 
             </div>
         </div>
@@ -99,7 +101,7 @@
                     lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
                         .on("value", a => {
                             that.obj = a.val();
-                            if (that.obj.id == this.$route.params.id){
+                            if (that.obj.id == this.$route.params.id) {
                                 that.bill = that.obj;
                             }
                         });
@@ -123,21 +125,21 @@
             }
         },
         methods: {
-            createQRCode: function() {
+            createQRCode: function () {
                 this.qrCodeVisible = true;
-                 const qrCodeEle = document.getElementById("qrcode");
-                                while (qrCodeEle.firstChild) {
-                                     qrCodeEle.removeChild(qrCodeEle.firstChild);
-                    }
+                const qrCodeEle = document.getElementById("qrcode");
+                while (qrCodeEle.firstChild) {
+                    qrCodeEle.removeChild(qrCodeEle.firstChild);
+                }
                 // eslint-disable-next-line no-undef
-                new QRCode(qrCodeEle,  {
+                new QRCode(qrCodeEle, {
                     text: this.generateString(),
                     width: 250,
                     height: 250,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
                     // eslint-disable-next-line no-undef
-                    correctLevel : QRCode.CorrectLevel.H
+                    correctLevel: QRCode.CorrectLevel.H
                 });
             },
             generateString: function () {
@@ -150,7 +152,7 @@
                 }
                 return arr.join(',');
             },
-            click: function() {
+            click: function () {
                 // eslint-disable-next-line no-console
                 console.log("asdf")
             }
@@ -165,7 +167,7 @@
     }
 
     .container {
-        max-width: 100em;
+        max-width: 90em;
         display: grid;
         grid-template-columns: 33.3% 33.3% 33.3%;
     }
@@ -191,4 +193,23 @@
         width: 1em;
         margin: 6px 0 16px 0;
     }
+
+        @media (max-width: 819px) {
+            .container {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-template-rows: auto;
+            }
+        }
+        @media (max-width: 420px) {
+            .container {
+                display: grid;
+                grid-template-columns: auto;
+                grid-template-rows: auto;
+            }
+
+            .detailReceiverContainer {
+                border-right: 0px solid;
+            }
+        }
 </style>
