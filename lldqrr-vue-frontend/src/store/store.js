@@ -1,32 +1,33 @@
 import Vue from "vue"
 import Vuex from "vuex"
-import { vuexfireMutations,  } from 'vuexfire'
+import {vuexfireMutations,} from 'vuexfire'
 import {lldqrrdb} from '@/firebaseConfig'
 import Cookies from 'js-cookie'
 
 Vue.use(Vuex);
 
-    let id = 1;
-    if(getCookie("userId")) {
-        lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", a => {
-            // eslint-disable-next-line no-unused-vars
-            a.forEach(childSnapshot => {
-                id++;
-            });
-        });
-    }
 
 export default new Vuex.Store({
     mutations: {
         ...vuexfireMutations,
         createBill(state, bill) {
             state.bill = bill;
-            let withBillId = {id, ...state.bill};
-            lldqrrdb.child(Cookies.get("userId")).child("Bill").push(withBillId);
+            var id = "ReplaceMe";
+            if (getCookie("userId")) {
+                let withBillId = {id, ...state.bill};
+                lldqrrdb.child(Cookies.get("userId")).child("Bill").push(withBillId);
+                var userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
+                if (userBills != null) {
+                    userBills.orderByChild("id").equalTo(id).once("value", snap => {
+                        snap.forEach(snapchild => {
+                            userBills.child(snapchild.key).set({id: snapchild.key, ...state.bill})
+                        });
+                    });
+                }
+            }
         },
     },
-    actions: {
-    },
+    actions: {},
     state: {
         bill: {
             id: "",
@@ -57,9 +58,7 @@ function getCookie(name) {
     if (begin === -1) {
         begin = dc.indexOf(prefix);
         if (begin != 0) return null;
-    }
-    else
-    {
+    } else {
         begin += 2;
         var end = document.cookie.indexOf(";", begin);
         if (end === -1) {

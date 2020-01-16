@@ -13,16 +13,18 @@
                     <md-table-cell md-label="Betrag" md-sort-by="amount">{{ item.amount }}</md-table-cell>
                     <md-table-cell md-label="Währung" md-sort-by="currency">{{ item.currency }}</md-table-cell>
                     <md-table-cell md-label="Aktion">
-                        <div class="icon" style="float: left; padding-right: 1em" @click.stop="first = true">
+                        <div @click="navigateToEditPage(item.id)" class="icon" style="float: left; padding-right: 1em" @click.stop="first = true">
                             <md-icon>create</md-icon>
                         </div>
                         <div @click.stop="deleteRow(item.id)" class="icon" style="float: left">
                             <md-icon>delete</md-icon>
                         </div>
+<!--
                         <md-dialog-alert
                                 :md-active.sync="first"
                                 md-title="Achtung"
                                 md-content="Das Editieren eines Eintrages ist noch nicht implementiert!"/>
+-->
                     </md-table-cell>
                 </md-table-row>
             </md-table>
@@ -91,6 +93,9 @@
             },
             navigateToDetailPage: function (id) {
                 this.$router.push("/detail/" + id);
+            },
+            navigateToEditPage: function (id) {
+                this.$router.push("/edit/" + id);
             },
             deleteRow: id => {
                 if (id != null) {

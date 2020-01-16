@@ -4,33 +4,6 @@
         <div class="receiverContainer">
             <md-card style="margin: 3em 0">
                 <md-card-header>
-                    <div class="md-title">Empfänger</div>
-                </md-card-header>
-
-                <md-card-expand>
-                    <md-card-actions style="float: right" md-alignment="space-between">
-                        <md-card-expand-trigger>
-                            <md-button class="md-icon-button">
-                                <md-icon>keyboard_arrow_down</md-icon>
-                            </md-button>
-                        </md-card-expand-trigger>
-                    </md-card-actions>
-                    <md-card-expand-content>
-                        <md-card-content>
-                            <md-field>
-                                <label>Vorname</label>
-                                <md-input v-model="bill.firstName"></md-input>
-                            </md-field>
-                            <md-field>
-                                <label>Nachname</label>
-                                <md-input v-model="bill.lastname"></md-input>
-                            </md-field>
-                        </md-card-content>
-                    </md-card-expand-content>
-                </md-card-expand>
-            </md-card>
-            <md-card>
-                <md-card-header>
                     <div class="md-title">Rechnungssteller</div>
                 </md-card-header>
 
@@ -42,9 +15,8 @@
                             </md-button>
                         </md-card-expand-trigger>
                     </md-card-actions>
-
                     <md-card-expand-content>
-                        <md-card-content>
+                        <md-card-content v-if="this.$route.params.id">
                             <md-field>
                                 <label>Vorname</label>
                                 <md-input v-model="bill.firstName"></md-input>
@@ -73,6 +45,90 @@
                                 <label>Land</label>
                                 <md-input v-model="bill.creditorLand"></md-input>
                             </md-field>
+                        </md-card-content>
+                        <md-card-content v-else>
+                            <md-field>
+                                <label>Vorname</label>
+                                <md-input v-model="bill.firstName"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Nachname</label>
+                                <md-input v-model="bill.lastname"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Strasse</label>
+                                <md-input v-model="bill.creditorStreet"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Hausnummer</label>
+                                <md-input v-model="bill.creditorBuildingNumber"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Stadt</label>
+                                <md-input v-model="bill.creditorCity"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>PLZ</label>
+                                <md-input v-model="bill.creditorPostalCode"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Land</label>
+                                <md-input v-model="bill.creditorLand"></md-input>
+                            </md-field>
+                        </md-card-content>
+                    </md-card-expand-content>
+                </md-card-expand>
+            </md-card>
+            <md-card>
+                <md-card-header>
+                    <div class="md-title">Rechnungsinformation</div>
+                </md-card-header>
+
+                <md-card-expand>
+                    <md-card-actions style="float: right" md-alignment="space-between">
+                        <md-card-expand-trigger>
+                            <md-button class="md-icon-button">
+                                <md-icon>keyboard_arrow_down</md-icon>
+                            </md-button>
+                        </md-card-expand-trigger>
+                    </md-card-actions>
+
+                    <md-card-expand-content>
+                        <md-card-content v-if="this.$route.params.id">
+                            <md-field>
+                                <label>Amount</label>
+                                <md-input v-model="bill.amount"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Währung</label>
+                                <md-input v-model="bill.currency"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Referenz Typ</label>
+                                <md-input v-model="bill.referenceType"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Referenz Nummer</label>
+                                <md-input v-model="bill.referenceNumber"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Strukturierte Zahlungs Info</label>
+                                <md-input v-model="bill.structuredPaymentInfo"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Unstrukturierte Zahlungs Info</label>
+                                <md-input v-model="bill.unstructuredPaymentInfo"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>QR Typ</label>
+                                <md-input v-model="bill.qrType"></md-input>
+                            </md-field>
+                            <md-field>
+                                <label>Version</label>
+                                <md-input v-model="bill.version"></md-input>
+                            </md-field>
+                        </md-card-content>
+                        <md-card-content v-else>
                             <md-field>
                                 <label>Amount</label>
                                 <md-input v-model="bill.amount"></md-input>
@@ -136,19 +192,85 @@
 
 
 <script>
+    import Cookies from 'js-cookie'
+    import {lldqrrdb} from '@/firebaseConfig'
+
     export default {
         // TODO: Validierung der Inputfelder
         name: "Create",
         data: function () {
             return {
                 bill: {},
-                confirmAbort: false
+                confirmAbort: false,
+                obj: {},
+                zahl: 0,
             }
         },
+        mounted() {
+            let that = this;
+            lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", snap => {
+                snap.forEach(snapChild => {
+                    lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
+                        .on("value", a => {
+                            that.obj = a.val();
+                            that.zahl = a.val().id;
+                            if (that.obj.id == this.$route.params.id) {
+                                that.bill = that.obj;
+                            }
+                        });
+                });
+            });
+        },
+
         methods: {
             createBill: function () {
-                this.$store.commit('createBill', this.bill);
-                this.navigateToHome();
+                // eslint-disable-next-line no-console
+                //console.log(this.$route.params.id);
+
+/*
+                let userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
+                if (userBills != null) {
+                    userBills.orderByChild("id").equalTo(this.$route.params.id).once("value", snap => {
+                        snap.forEach(snapchild =>  {
+
+                            // eslint-disable-next-line no-console
+                            console.log(userBills.child(snapchild.key))
+
+                        });
+
+                    });
+                }
+*/
+
+
+                //
+                //
+                // if (this.$route.params.id) {
+                //     lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", snap => {
+                //         snap.forEach(snapChild => {
+                //             lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
+                //                 .on("value", a => {
+                //                     this.zahl = a.val().id;
+                //
+                //                 });
+                //         });
+                //     });
+                //
+                //
+                //     } else {
+                //
+                // }
+                //
+
+                if (this.$route.params.id) {
+                    
+
+                } else {
+                    this.$store.commit('createBill', this.bill);
+                    this.navigateToHome();
+
+                }
+
             },
             navigateToHome: function () {
                 this.$router.push("/home");
