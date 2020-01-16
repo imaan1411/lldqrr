@@ -183,7 +183,8 @@
                            @click="checkIfUserInputIsNull()">Abbrechen
                 </md-button>
                 <md-button class="md-dense md-raised md-primary"
-                           style="position: absolute; bottom: 0; margin-left: 10em" @click="createBill()">Speichern
+                           style="position: absolute; bottom: 0; margin-left: 10em" @click="createBillOrUpdateBill()">
+                    Speichern
                 </md-button>
             </div>
         </div>
@@ -196,81 +197,29 @@
     import {lldqrrdb} from '@/firebaseConfig'
 
     export default {
-        // TODO: Validierung der Inputfelder
         name: "Create",
         data: function () {
             return {
                 bill: {},
                 confirmAbort: false,
                 obj: {},
-                zahl: 0,
             }
         },
-        mounted() {
-            let that = this;
-            lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", snap => {
-                snap.forEach(snapChild => {
-                    lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
-                        .on("value", a => {
-                            that.obj = a.val();
-                            that.zahl = a.val().id;
-                            if (that.obj.id == this.$route.params.id) {
-                                that.bill = that.obj;
-                            }
-                        });
-                });
-            });
-        },
-
         methods: {
-            createBill: function () {
-                // eslint-disable-next-line no-console
-                //console.log(this.$route.params.id);
-
-/*
-                let userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
-                if (userBills != null) {
-                    userBills.orderByChild("id").equalTo(this.$route.params.id).once("value", snap => {
-                        snap.forEach(snapchild =>  {
-
-                            // eslint-disable-next-line no-console
-                            console.log(userBills.child(snapchild.key))
-
-                        });
-
-                    });
-                }
-*/
-
-
-                //
-                //
-                // if (this.$route.params.id) {
-                //     lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", snap => {
-                //         snap.forEach(snapChild => {
-                //             lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
-                //                 .on("value", a => {
-                //                     this.zahl = a.val().id;
-                //
-                //                 });
-                //         });
-                //     });
-                //
-                //
-                //     } else {
-                //
-                // }
-                //
-
+            createBillOrUpdateBill: function () {
                 if (this.$route.params.id) {
-                    
-
+                    let userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
+                    if (userBills != null) {
+                        userBills.orderByChild("id").equalTo(this.$route.params.id).once("value", snap => {
+                            snap.forEach(snapchild => {
+                                userBills.child(snapchild.key).update(this.bill);
+                            });
+                        });
+                    }
                 } else {
                     this.$store.commit('createBill', this.bill);
-                    this.navigateToHome();
-
                 }
-
+                this.navigateToHome();
             },
             navigateToHome: function () {
                 this.$router.push("/home");
@@ -353,6 +302,7 @@
             grid-template-rows: auto;
         }
     }
+
     @media (max-width: 420px) {
         .container {
             display: grid;

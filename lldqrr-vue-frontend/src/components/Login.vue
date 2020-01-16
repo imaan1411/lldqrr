@@ -61,15 +61,15 @@
     import "firebase/auth"
     import Cookies from 'js-cookie'
 
-    // TODO: error handling für paasswort mind 6 stellen & email adresse muss ein @haben & und passwort oder email falsch
     export default {
         data: function () {
             return {
+                error: "",
                 isRegisterOpen: false,
                 loggedInUser: {},
                 user: {
                     email: "",
-                    password: ""
+                    password: "",
                 },
             }
         },
@@ -83,8 +83,9 @@
                         this.$store.loggedIn = true;
                         this.$router.push('/home');
                     })
+                    // eslint-disable-next-line no-unused-vars
                     .catch(err => {
-                        this.error = err.message;
+                        this.error = "Es ist ein Fehler aufgetreten. Das Passwort muss mind 6 Stellen haben!";
                     });
             },
             login() {
@@ -96,8 +97,9 @@
                         this.$store.loggedIn = true;
                         this.$router.push('/home');
                     })
+                    // eslint-disable-next-line no-unused-vars
                     .catch(err => {
-                        this.error = err.message;
+                        this.error = "Es ist ein Fehler aufgetreten. Das Passwort muss mind 6 Stellen haben!";
                     });
             }
         }

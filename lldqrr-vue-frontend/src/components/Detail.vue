@@ -90,14 +90,11 @@
     import {lldqrrdb} from '@/firebaseConfig'
 
     export default {
-        // TODO: Download der Daten implementieren (wenn keine Zeit, Fehlermeldung ist noch nicht implementiert)
-        // TODO: Wenn noch spass daran, Teil Money auf gleiche höhe bringen
         name: "Detail",
         mounted() {
             let that = this;
             lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", snap => {
                 snap.forEach(snapChild => {
-                    //let i = 0;
                     lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
                         .on("value", a => {
                             that.obj = a.val();
@@ -152,11 +149,6 @@
                 }
                 return arr.join(',');
             },
-            click: function () {
-                // eslint-disable-next-line no-console
-                console.log("asdf")
-            }
-
         }
     }
 </script>
@@ -194,22 +186,23 @@
         margin: 6px 0 16px 0;
     }
 
-        @media (max-width: 819px) {
-            .container {
-                display: grid;
-                grid-template-columns: auto auto;
-                grid-template-rows: auto;
-            }
+    @media (max-width: 819px) {
+        .container {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-rows: auto;
         }
-        @media (max-width: 420px) {
-            .container {
-                display: grid;
-                grid-template-columns: auto;
-                grid-template-rows: auto;
-            }
+    }
 
-            .detailReceiverContainer {
-                border-right: 0px solid;
-            }
+    @media (max-width: 420px) {
+        .container {
+            display: grid;
+            grid-template-columns: auto;
+            grid-template-rows: auto;
         }
+
+        .detailReceiverContainer {
+            border-right: 0px solid;
+        }
+    }
 </style>
