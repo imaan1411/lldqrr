@@ -72,7 +72,7 @@
                 <p>{{receiver.postCode}} {{receiver.city}}</p>
             </div>
             <div style="text-align: right">
-                <md-button @click="download = true" class="md-dense md-raised" style="width: 1em;">Döwnlöäd</md-button>
+                <md-button @click="download = true" class="md-dense md-raised" style="width: 1em;">Download</md-button>
                 <md-dialog-alert
                         :md-active.sync="download"
                         md-title="Achtung"
@@ -125,8 +125,12 @@
         methods: {
             createQRCode: function() {
                 this.qrCodeVisible = true;
+                 const qrCodeEle = document.getElementById("qrcode");
+                                while (qrCodeEle.firstChild) {
+                                     qrCodeEle.removeChild(qrCodeEle.firstChild);
+                    }
                 // eslint-disable-next-line no-undef
-                new QRCode(document.getElementById("qrcode"),  {
+                new QRCode(qrCodeEle,  {
                     text: this.generateString(),
                     width: 250,
                     height: 250,

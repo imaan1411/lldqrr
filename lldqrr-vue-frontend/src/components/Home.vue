@@ -16,17 +16,14 @@
                         <div class="icon" style="float: left; padding-right: 1em" @click.stop="first = true">
                             <md-icon>create</md-icon>
                         </div>
-                        <div @click.stop="second = true" class="icon" style="float: left" >
+                        <div @click.stop="deleteRow(item.id)" class="icon" style="float: left" >
                                 <md-icon>delete</md-icon>
                         </div>
                         <md-dialog-alert
                                 :md-active.sync="first"
                                 md-title="Achtung"
                                 md-content="Das Editieren eines Eintrages ist noch nicht implementiert!" />
-                        <md-dialog-alert
-                                :md-active.sync="second"
-                                md-title="Achtung"
-                                md-content="Das Löschen eines Eintrages ist noch nicht implementiert!" />
+
                     </md-table-cell>
                 </md-table-row>
             </md-table>
@@ -50,11 +47,12 @@
     export default {
         name: "Home",
         created() {
-            lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on("child_added", snap => {
+        var ref = lldqrrdb.orderByKey().equalTo(Cookies.get("userId"));
+            ref.on("child_added", snap => {
                 if (snap.key === Cookies.get("userId")) {
                     let returnArr = [];
                     let that = this;
-                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).on('value', snapshot=> {
+                    lldqrrdb.orderByKey().equalTo(Cookies.get("userId")).once('value', snapshot=> {
                         snapshot.forEach(childSnapshot => {
                             returnArr.push(childSnapshot.val());
                             that.list = returnArr;
@@ -92,6 +90,20 @@
             },
             navigateToDetailPage: function (id) {
                 this.$router.push("/detail/" + id);
+            },
+            deleteRow: id => {
+            if(id != null)
+            {
+                var userBills = lldqrrdb.child(Cookies.get("userId")).child("Bill");
+                if( userBills != null )
+                {
+                userBills.orderByChild("id").equalTo(id).once("value", snap => {
+                snap.forEach( snapchild => {
+                 userBills.child(snapchild.key).remove();
+                });
+                });
+                }
+            }
             },
         }
     }
