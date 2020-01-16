@@ -20,12 +20,6 @@
                         <div @click.stop="deleteRow(item.id)" class="icon" style="float: left">
                             <md-icon>delete</md-icon>
                         </div>
-                        <!--
-                                                <md-dialog-alert
-                                                        :md-active.sync="first"
-                                                        md-title="Achtung"
-                                                        md-content="Das Editieren eines Eintrages ist noch nicht implementiert!"/>
-                        -->
                     </md-table-cell>
                 </md-table-row>
             </md-table>
@@ -106,6 +100,7 @@
                             snap.forEach(snapchild => {
                                 userBills.child(snapchild.key).remove();
                             });
+                            location.reload();
                         });
                     }
                 }
