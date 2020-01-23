@@ -198,6 +198,21 @@
 
     export default {
         name: "Create",
+        mounted() {
+            let that = this;
+            lldqrrdb.child(Cookies.get("userId")).child("Bill").on("value", snap => {
+                snap.forEach(snapChild => {
+                    lldqrrdb.child(Cookies.get("userId")).child("Bill").child(snapChild.key)
+                        .on("value", a => {
+                            that.obj = a.val();
+                            if (that.obj.id == this.$route.params.id) {
+                                that.bill = that.obj;
+                            }
+                        });
+                });
+            });
+        },
+
         data: function () {
             return {
                 bill: {},
@@ -205,6 +220,7 @@
                 obj: {},
             }
         },
+
         methods: {
             createBillOrUpdateBill: function () {
                 if (this.$route.params.id) {

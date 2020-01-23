@@ -45,7 +45,7 @@
     export default {
         name: "Home",
         created() {
-            var ref = lldqrrdb.orderByKey().equalTo(Cookies.get("userId"));
+            let ref = lldqrrdb.orderByKey().equalTo(Cookies.get("userId"));
             ref.on("child_added", snap => {
                 if (snap.key === Cookies.get("userId")) {
                     let returnArr = [];
